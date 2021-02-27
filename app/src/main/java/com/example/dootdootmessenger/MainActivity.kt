@@ -1,5 +1,6 @@
 package com.example.dootdootmessenger
 
+import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,11 +10,16 @@ import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
-    private val context: Context = this
+    private lateinit var context: Context
+    private lateinit var bluetoothAdapter: BluetoothAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        context = this
+
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -24,14 +30,17 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_search_devices -> {
-                Toast.makeText(context, "Clicked Search Devices", Toast.LENGTH_LONG).show()
-                return true
-            }
-            R.id.menu_enable_bluetooth -> {
-                Toast.makeText(context, "Clicked Enable Bluetooth", Toast.LENGTH_LONG).show()
+                enableBluetooth()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun enableBluetooth() {
+        if (!bluetoothAdapter.isEnabled) {
+            Toast.makeText(context, "Bluetooth enabled", Toast.LENGTH_SHORT).show()
+            bluetoothAdapter.enable()
+        }
     }
 }
