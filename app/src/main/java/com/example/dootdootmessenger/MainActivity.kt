@@ -19,14 +19,11 @@ private const val LOCATION_PERMISSION_REQUEST: Int = 88
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var context: Context
     private lateinit var bluetoothAdapter: BluetoothAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        context = this
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
     }
@@ -49,8 +46,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkPermissions() {
         //TODO: Use companion thing on newer APIs˚
-        if (ContextCompat.checkSelfPermission( context, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-            AlertDialog.Builder(context)
+        if (ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+            AlertDialog.Builder(this)
                 .setCancelable(false)
                 .setMessage("We be needin' that permission famalam")
                 .setPositiveButton("Grant") { _, _ ->
@@ -64,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                     this.finish()
                 }.show()
         } else {
-            startActivity(Intent(context, DeviceListActivity::class.java))
+            startActivity(Intent(this, DeviceListActivity::class.java))
         }
     }
 
@@ -78,9 +75,9 @@ class MainActivity : AppCompatActivity() {
                 if (grantResults.isNotEmpty() &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    startActivity(Intent(context, DeviceListActivity::class.java))
+                    startActivity(Intent(this, DeviceListActivity::class.java))
                 } else {
-                    AlertDialog.Builder(context)
+                    AlertDialog.Builder(this)
                         .setCancelable(false)
                         .setMessage("You didn't give us location access, bye lol")
                         .setPositiveButton("Bye!") { _, _ ->
@@ -96,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun enableBluetooth() {
         if (!bluetoothAdapter.isEnabled) {
-            Toast.makeText(context, "Bluetooth enabled", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Bluetooth enabled", Toast.LENGTH_SHORT).show()
             bluetoothAdapter.enable()
         }
     }
