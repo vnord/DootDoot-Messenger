@@ -19,6 +19,8 @@ private const val LOCATION_PERMISSION_REQUEST: Int = 88
 
 class MainActivity : AppCompatActivity() {
 
+    private val context: Context = this
+
     private lateinit var bluetoothAdapter: BluetoothAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,19 +36,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.menu_search_devices -> {
                 enableBluetooth()
                 checkPermissions()
-                return true
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun checkPermissions() {
-        //TODO: Use companion thing on newer APIs˚
-        if (ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+        //TODO: Use companion thing on newer APIs
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             AlertDialog.Builder(this)
                 .setCancelable(false)
                 .setMessage("We be needin' that permission famalam")
@@ -93,7 +99,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun enableBluetooth() {
         if (!bluetoothAdapter.isEnabled) {
-            Toast.makeText(this, "Bluetooth enabled", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Bluetooth enabled", Toast.LENGTH_SHORT).show()
             bluetoothAdapter.enable()
         }
     }
