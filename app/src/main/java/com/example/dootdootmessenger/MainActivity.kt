@@ -3,19 +3,19 @@ package com.example.dootdootmessenger
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 private const val LOCATION_PERMISSION_REQUEST: Int = 88
+private const val SELECT_DEVICE: Int = 420
 
 class MainActivity : AppCompatActivity() {
 
@@ -67,8 +67,16 @@ class MainActivity : AppCompatActivity() {
                     this.finish()
                 }.show()
         } else {
-            startActivity(Intent(this, DeviceListActivity::class.java))
+            startActivityForResult(Intent(this, DeviceListActivity::class.java), SELECT_DEVICE)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == SELECT_DEVICE && resultCode == RESULT_OK) {
+            val address = data!!.getStringExtra("deviceAddress")
+            Toast.makeText(context, "Address: $address", Toast.LENGTH_SHORT).show()
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onRequestPermissionsResult(
@@ -81,7 +89,10 @@ class MainActivity : AppCompatActivity() {
                 if (grantResults.isNotEmpty() &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    startActivity(Intent(this, DeviceListActivity::class.java))
+                    startActivityForResult(
+                        Intent(this, DeviceListActivity::class.java),
+                        SELECT_DEVICE
+                    )
                 } else {
                     AlertDialog.Builder(this)
                         .setCancelable(false)

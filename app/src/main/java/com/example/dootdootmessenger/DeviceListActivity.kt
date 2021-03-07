@@ -10,10 +10,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 
@@ -47,6 +44,15 @@ class DeviceListActivity : AppCompatActivity() {
 
         listPairedDevices.adapter = adapterPairedDevices
         listAvailableDevices.adapter = adapterAvailableDevices
+
+        listAvailableDevices.onItemClickListener =
+            AdapterView.OnItemClickListener { _, view, _, _ ->
+                val info = (view as TextView).text.toString()
+                val address = info.substring(info.length - 17)
+
+                setResult(RESULT_OK, Intent().putExtra("deviceAddress", address))
+                finish()
+            }
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
@@ -82,7 +88,8 @@ class DeviceListActivity : AppCompatActivity() {
                     if (adapterPairedDevices.count == 0) {
                         Toast.makeText(context, "No new devices found", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "Clicked on device", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Click on a device to pair", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
 
