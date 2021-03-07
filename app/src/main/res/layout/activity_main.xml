@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,10 +7,10 @@
 
     <ListView
         android:id="@+id/list_conversation"
-        android:layout_marginBottom="60dp"
         android:layout_width="match_parent"
-        android:background="#eeeeee"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        android:background="#eeeeee" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,16 +20,20 @@
 
         <EditText
             android:id="@+id/ed_enter_message"
-            android:layout_marginEnd="100dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="100dp"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            android:hint="@string/enter_message"
+            />
 
 
         <Button
             android:layout_width="100dp"
-            android:layout_alignParentEnd="true"
             android:layout_height="wrap_content"
-            android:text="@string/str_label_btn_send"/>
+            android:layout_alignParentEnd="true"
+            android:text="@string/str_label_btn_send" />
 
 
     </RelativeLayout>
